@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stylish Calculator</title>
+  <style>
+    /* Body styling */
+    body {
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-image: url(https://cdn.pixabay.com/photo/2021/02/27/21/16/plain-background-6055825_1280.jpg);
+      background-size: cover;
+      margin: 0;
+      /* background: linear-gradient(135deg, #1e3c72, #2a5298); */
+      color: #fff;
+    }
+
+    /* Calculator container */
+    .calculator {
+      width: 320px;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      color: #333;
+      box-shadow: 10px 10px 50px black;
+    }
+
+    /* Result display */
+    #result {
+      width: 100%;
+      height: 60px;
+      font-size: 1.8em;
+      text-align: right;
+      margin-bottom: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background-color: #f4f4f4;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Buttons container */
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    /* Button styles */
+    button {
+      height: 60px;
+      font-size: 1.4em;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #007bff, #0056b3);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Button hover effect */
+    button:hover {
+      background: linear-gradient(145deg, #0056b3, #003c7a);
+    }
+
+    /* Special styles for 'C' and '=' buttons */
+    button:nth-child(1) {
+      background: linear-gradient(145deg, #ff4e4e, #c9302c);
+    }
+
+    button:nth-child(1):hover {
+      background: linear-gradient(145deg, #c9302c, #9b2222);
+    }
+
+    button:last-child {
+      background: linear-gradient(145deg, #28a745, #218838);
+    }
+
+    button:last-child:hover {
+      background: linear-gradient(145deg, #218838, #19692c);
+    }
+
+    /* Active button effect */
+    button:active {
+      transform: scale(0.95);
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Adjust last row button spans */
+    .zero {
+      grid-column: span 2;
+    }
+
+    .double-zero {
+      grid-column: span 1;
+    }
+
+    .dot {
+      grid-column: span 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <input type="text" id="result" disabled>
+    <div class="buttons">
+      <button onclick="clearResult()">C</button>
+      <button onclick="appendValue('/')">/</button>
+      <button onclick="appendValue('*')">*</button>
+      <button onclick="backspace()">←</button>
+      <button onclick="appendValue('7')">7</button>
+      <button onclick="appendValue('8')">8</button>
+      <button onclick="appendValue('9')">9</button>
+      <button onclick="appendValue('-')">-</button>
+      <button onclick="appendValue('4')">4</button>
+      <button onclick="appendValue('5')">5</button>
+      <button onclick="appendValue('6')">6</button>
+      <button onclick="appendValue('+')">+</button>
+      <button onclick="appendValue('1')">1</button>
+      <button onclick="appendValue('2')">2</button>
+      <button onclick="appendValue('3')">3</button>
+      <button onclick="calculate()">=</button>
+      <!-- Last row: 0 spans 2 columns, 00 and . occupy remaining space -->
+      <button onclick="appendValue('0')" class="zero">0</button>
+      <button onclick="appendValue('00')" class="double-zero">00</button>
+      <button onclick="appendValue('.')" class="dot">.</button>
+    </div>
+  </div>
+  <script>
+    const resultField = document.getElementById('result');
+
+    // Append value to the result field
+    function appendValue(value) {
+      resultField.value += value;
+    }
+
+    // Clear the result field
+    function clearResult() {
+      resultField.value = '';
+    }
+
+    // Backspace function
+    function backspace() {
+      resultField.value = resultField.value.slice(0, -1);
+    }
+
+    // Evaluate the expression
+    function calculate() {
+      try {
+        resultField.value = eval(resultField.value) || '';
+      } catch (e) {
+        alert('Invalid Input');
+      }
+    }
+  </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>
